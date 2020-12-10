@@ -46,9 +46,8 @@ async function getItems(pageObj, resultsArr) {
 
 async function scrapeDetailsPage(pageObj, resultsArr) {
     
-    log.error(`Not scraping details pages`);
-    
-    return;
+    log.info(`Noq scraping details pages`);
+   
     // Scrape page 1
     await getItems(pageObj, resultsArr);
     // Go to page 2 and scrape
