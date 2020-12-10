@@ -7,7 +7,7 @@
             "title": "Domain",
             "type": "string",
             "description": "Select the URL of the Amazon Best Sellers page you want to extract.",
-            "editor": "text",
+            "editor": "textarea",
             "default": ""
         },
         "depthOfCrawl": {
