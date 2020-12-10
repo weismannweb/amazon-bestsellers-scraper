@@ -44,7 +44,7 @@ Apify.main(async () => {
                 await enqueueLinks({
                     page,
                     requestQueue,
-                    selector: 'div > ul > ul > li > a',
+                    selector: '#mainResults ul > li > a',
                     transformRequestFunction: (req) => {
                         req.userData.detailPage = true;
                         req.userData.depthOfCrawl = 1;
@@ -58,7 +58,7 @@ Apify.main(async () => {
                 await enqueueLinks({
                     page,
                     requestQueue,
-                    selector: 'ul > ul > ul > li > a',
+                    selector: '#mainResults ul > li > a',
                     transformRequestFunction: (req) => {
                         req.userData.detailPage = true;
                         req.userData.depthOfCrawl = 2;
