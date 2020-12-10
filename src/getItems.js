@@ -4,13 +4,21 @@ const { log } = Apify.utils;
 
 async function getItems(pageObj, resultsArr) {
     // Scrape all items that match the selector
-    const itemsObj = await pageObj.$$eval('div.p13n-sc-truncated', prods => prods.map(prod => prod.innerHTML));
+    const itemsObj = await pageObj.$$eval('a-col-right .a-link-normal a h2', prods => prods.map(prod => prod.innerHTML));
 
-    const pricesObj = await pageObj.$$eval('span.p13n-sc-price', price => price.map(el => el.innerHTML));
+    const pricesObj = await pageObj.$$eval('a-col-right .a-offscreen', prices => prices.map(el => el.innerHTML));
 
-    const urlsObj = await pageObj.$$eval('span.aok-inline-block > a.a-link-normal', link => link.map(url => url.href));
+    const urlsObj = await pageObj.$$eval('div.a-col-left  a.a-link-normal', links => links.map(link => link.href));
 
-    const imgsObj = await pageObj.$$eval('a.a-link-normal > span > div.a-section > img', link => link.map(url => url.src));
+    const imgsObj = await pageObj.$$eval('div.a-col-left > img', imgs => imgs.map(img => img.src));
+    
+    const asinsObj = await pageObj.$$eval('.a-col-right .a-spacing-mini > span', asins => asins.map(asin => asin.name));
+    
+    const reviewsObj = await pageObj.$$eval('.a-col-right . .a-icon-alt', reviews => reviews.map(el => el.innerHTML));
+    
+    const reviewscountObj= await pageObj.$$eval('.a-span-last a.a-text-normal', reviewscount => reviewscount.map(el => el.innerHTML));
+    
+    const releasedatesObj= await pageObj.$$eval('a-col-right span span span', releasedates => releasedates.map(el => el.innerHTML));
 
     // Get rid of duplicate URLs (couldn't avoid scraping them)
     const urlsArr = [];
@@ -28,11 +36,19 @@ async function getItems(pageObj, resultsArr) {
             price: pricesObj[i],
             url: urlsArr[i],
             thumbnail: imgsObj[i],
+            asins: asinsObj[i],
+            reviews: reviewsObj[i],
+            reviewscount: reviewscountObj[i],
+            releasedate: releasedatesObj[i],
         });
     }
 }
 
 async function scrapeDetailsPage(pageObj, resultsArr) {
+    
+    log.error(`Not scraping details pages`);
+    
+    return;
     // Scrape page 1
     await getItems(pageObj, resultsArr);
     // Go to page 2 and scrape
